@@ -1,1 +1,22 @@
 @import "bootstrap/scss/bootstrap";
+
+.tippy-box[data-theme~='tip'] {
+	background-color: #ccc;
+	color: black;
+  width: 50vw;
+  text-align: left;
+  opacity: 0.95;
+}
+
+.tippy-box[data-theme~='tip'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #ccc;
+}
+.tippy-box[data-theme~='tip'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #ccc;
+}
+.tippy-box[data-theme~='tip'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #ccc;
+}
+.tippy-box[data-theme~='tip'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #ccc;
+}

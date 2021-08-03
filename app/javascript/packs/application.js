@@ -24,4 +24,3 @@ $(document).ready(function() {
 		$('.notice .alert').fadeOut();
 	}, 2000);
 })
-

@@ -25,4 +25,6 @@ Rails.application.routes.draw do
 		get 'likes/like_results/(.:format)' => 'likes#like_results', as: :like_results
 		post 'likes/like_upload/(.:format)', as: :like_upload, to: 'likes#like_upload'
 
+	get 'scrapbook' => 'scrapbook#index', as: 'scrapbook'
+
 end

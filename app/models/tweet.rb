@@ -2,6 +2,8 @@ class Tweet < ApplicationRecord
 	serialize :user
 	serialize :entities
 
+	scope :by_date, ->(date) { where(created_at: date.to_time.beginning_of_day..date.to_time.end_of_day) }
+
 	def self.search(term)
 		if term
 			where('text LIKE :search', search: "%#{term}%").order(created_at: :desc)
@@ -21,7 +23,7 @@ class Tweet < ApplicationRecord
 	end
 
 	def text_with_links
-		self.text.gsub(/https?:\/\/[\S]+/) { |l| "<a href=\"#{l}\" class=\"tweet_link\">#{l}</a>" }
+		self.text.gsub(/https?:\/\/[\S]+/) { |l| "<a href=\"#{l}\" target=\"_blank\" class=\"tweet_link\">#{l}</a>" }
 	end
 
 	def links

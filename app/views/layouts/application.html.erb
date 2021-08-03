@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>ohayo</title>
 		<%= csrf_meta_tags %>
 		<%= csp_meta_tag %>
@@ -11,23 +13,26 @@
 	</head>
 
 	<body>
-		<div class="navi">
-				<%= link_to "↑", root_path %> |
-				<%= link_to "鳥", tweets_path %> |
-				<%= link_to "♡", likes_path %> |
-			<% if user_signed_in? %>
-				<%= link_to "出", destroy_user_session_path, :method => :delete, class: 'exit' %>
-			<% else %>
-				<%= link_to "入", new_user_session_path, :method => :post  %>
+		<div class="container-flex pt-4">
+			<div class="navi">
+					<%= link_to "🔝", root_path, 'data-turbolinks': 'false' %> |
+					<%= link_to "📓", scrapbook_path, 'data-turbolinks': 'false' %> |
+				<% if user_signed_in? %>
+					<%= link_to "🐦", tweets_path, 'data-turbolinks': 'false' %> |
+					<%= link_to "👍", likes_path, 'data-turbolinks': 'false' %> |
+					<%= link_to "🔐", destroy_user_session_path, :method => :delete, class: 'exit' %>
+				<% else %>
+					<%= link_to "🔓", new_user_session_path, :method => :post  %>
+				<% end %>
+			</div>
+			<%= yield %>
+			<% if notice %>
+				<p class="notice"><%= notice %></p>
+			<% end %>
+			<% if alert %>
+				<p class="alert"><%= alert %></p>
 			<% end %>
 		</div>
-		<%= yield %>
-		<% if notice %>
-			<p class="notice"><%= notice %></p>
-		<% end %>
-		<% if alert %>
-			<p class="alert"><%= alert %></p>
-		<% end %>
 		<%= content_for :render_async %>
 	</body>
 </html>

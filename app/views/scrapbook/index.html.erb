@@ -1,0 +1,37 @@
+<%= javascript_pack_tag 'shuffle', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'tippyjs', 'data-turbolinks-track': 'reload' %>
+
+<div class="help">
+	<%= button_tag "?", 'data-turbolinks': 'false', class: 'btn btn-sm no-focus tippy', "data-tippy-content" => "
+		<b>Scrapbook</b>
+		<p class='small mt-2'>
+			This is a collection of <span class='border rounded border-primary px-1'>tweets</span> and <span class='border rounded border-info px-1'>likes</span> (which I mainly treat as bookmarks) from yours truly.
+			The default setting is posts from <span class='border rounded border-dark bg-white px-1'>today</span>, and the same day <span class='border rounded border-dark bg-light px-1'>one year prior</span>.
+			I am working on adding search and customization capabilities in the future.
+		</p>
+	" %>
+</div>
+
+<div class="container mt-4">
+	<div class="row shuffle-sizer" id="grid">
+		<% [@posts, @posts_ly].each_with_index do |post_array, i| %>
+			<% post_array.each do |post| %>
+			<% old = (i != 0) %>
+			<% tweet = post.class.name == 'Tweet' %>
+			<div class="col-sm-12 col-md-6 col-lg-3 shuffle-brick">
+				<div class="card mb-4 rounded <%= tweet ? 'border-primary' : 'border-info' %>">
+					<div class="card-body<%= ' bg-light' if old %>">
+						<% unless tweet %>
+							<b><%= post.screen_name  %></b><br>
+						<% end %>
+						<%= (post.text_with_links).html_safe  %>
+					</div>
+					<div class="card-footer<%= ' bg-secondary' if old %>">
+						<i><%= link_to post.created_at, post.url, class: "small #{old ? "text-white" : "text-muted"}" %></i><br>
+					</div>
+				</div>
+			</div>
+			<% end %>
+		<% end %>
+	</div>
+</div>

@@ -35,7 +35,7 @@
 	bottom: 15px;
 	right: 15px;
 	background-color: rgba(200, 250, 0, 0.45);
-	padding: 15px;
-	border-radius: 15px;
-	position: fixed;
+	padding: 15px !important;
+	border-radius: 15px !important;
+	position: fixed !important;
 }

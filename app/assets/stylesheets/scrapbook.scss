@@ -1,0 +1,13 @@
+// Place all the styles related to the scrapbook controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.help .btn {
+  padding: 0rem 0.5rem;
+  font-size: 1rem;
+}
+
+.btn.no-focus:focus {
+  outline: none;
+  box-shadow: none;
+}

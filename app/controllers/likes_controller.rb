@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
 	before_action :set_like, only: [:show, :edit, :update, :destroy]
-	before_action :authenticate_user!, only: [:edit, :update, :destroy, :like_results, :display_change]
+	before_action :authenticate_user!
 
 	# GET /likes
 	# GET /likes.json
