@@ -38,5 +38,11 @@ module MudlUs
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    
+    # Set Timezone
+    config.time_zone = 'Tokyo'
+    # Load Libraries
+    config.autoload_paths << Rails.root.join("lib")
+    config.eager_load_paths << Rails.root.join("lib")
   end
 end

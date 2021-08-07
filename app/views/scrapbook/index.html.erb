@@ -1,37 +1,72 @@
 <%= javascript_pack_tag 'shuffle', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'tippyjs', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'flatpickr', 'data-turbolinks-track': 'reload' %>
 
 <div class="help">
-	<%= button_tag "?", 'data-turbolinks': 'false', class: 'btn btn-sm no-focus tippy', "data-tippy-content" => "
-		<b>Scrapbook</b>
-		<p class='small mt-2'>
-			This is a collection of <span class='border rounded border-primary px-1'>tweets</span> and <span class='border rounded border-info px-1'>likes</span> (which I mainly treat as bookmarks) from yours truly.
-			The default setting is posts from <span class='border rounded border-dark bg-white px-1'>today</span>, and the same day <span class='border rounded border-dark bg-light px-1'>one year prior</span>.
-			I am working on adding search and customization capabilities in the future.
-		</p>
-	" %>
+	<%= button_tag "?", 'data-turbolinks': 'false', class: 'btn btn-sm no-focus help_tip', "data-tippy-content" => "
+		<div class='p-1'>
+			<b>#{(link_to('Scrapbook', scrapbook_path, class: "text-white"))}</b>
+			<p class='small mt-2'>
+				This is a collection of <span class='border rounded border-primary px-1'>tweets</span>, <span class='border rounded border-success px-1'>retweets</span> and <span class='border rounded border-info px-1'>likes</span> (which I mainly treat as bookmarks) from yours truly. Tweets are scraped to a local database and this site has no tracking (eg. Twitter's 'widget.js'). Tweets and retweets by myself should show in full, all likes are truncated versions of original tweets. 
+				The default setting is posts from today. Search for #{link_to("last year", scrapbook_path(date: @search_date - 1.year))}, #{link_to("two years ago", scrapbook_path(date: @search_date - 2.years))}.
+			</p>
+			<div class='input-group'>
+				#{form_tag(scrapbook_path, method: :get) do
+					text_field_tag :term, (@term ? @term : '検索'), class: 'form-control'
+				end}
+			</div>
+			<p class='p-2 text-center'>
+				<b>#{@all_posts.length}</b> records found for the current selection.
+			</p>
+		</div>
+	" %> |
+		<span class="px-2 d-inline-block">
+			<%= link_to("⏮", scrapbook_path(date: @search_date - 1.month), class: "tippy", "data-tippy-content" => "Back one month")%> 
+			<%= link_to("⏪", scrapbook_path(date: @search_date - 1.day), class: "tippy", "data-tippy-content" => "Back one day") %> 
+			<span class="px-1 d-inline-block w-50">
+				<%= form_tag(scrapbook_path, method: :get, class:'form-inline p-0') do %>
+					<div class="form-group">
+						<%= text_field_tag :date, params[:date], class: 'flatpickr form-control form-control-sm text-center p-0' %>
+					</div>
+				<% end %>
+			</span>
+			<%= link_to("⏩", scrapbook_path(date: @search_date + 1.day), class: "tippy", "data-tippy-content" => "Forward one day") %> 
+			<%= link_to("⏭", scrapbook_path(date: @search_date + 1.month), class: "tippy", "data-tippy-content" => "Forward one month") %>
+		</span>
 </div>
 
 <div class="container mt-4">
 	<div class="row shuffle-sizer" id="grid">
-		<% [@posts, @posts_ly].each_with_index do |post_array, i| %>
-			<% post_array.each do |post| %>
-			<% old = (i != 0) %>
-			<% tweet = post.class.name == 'Tweet' %>
-			<div class="col-sm-12 col-md-6 col-lg-3 shuffle-brick">
-				<div class="card mb-4 rounded <%= tweet ? 'border-primary' : 'border-info' %>">
-					<div class="card-body<%= ' bg-light' if old %>">
-						<% unless tweet %>
-							<b><%= post.screen_name  %></b><br>
-						<% end %>
-						<%= (post.text_with_links).html_safe  %>
-					</div>
-					<div class="card-footer<%= ' bg-secondary' if old %>">
-						<i><%= link_to post.created_at, post.url, class: "small #{old ? "text-white" : "text-muted"}" %></i><br>
+		<% @all_posts.sort{|p| p.created_at }.reverse.each do |post| %>
+			<% unless post.nil? %>
+				<% tweet = post.class.name == 'Tweet' %>
+				<div class="col-sm-12 col-md-6 col-lg-3 shuffle-brick">
+					<div class="card mb-4 rounded <%= border_color(post) %>">
+						<div class="card-body">
+							<% if tweet %>
+								<% if post.retweeted %>
+									♻️ <%= post.retweeted_text[:text].html_safe %>
+								<% else %>
+									<%= (post.text_with_links).html_safe  %>
+								<% end %>
+							<% else %>
+								<b><%= link_to(post.screen_name, post.user_url) %></b><br>
+								<%= (post.text_with_links).html_safe  %>
+							<% end %>
+						</div>
+						<div class="card-footer">
+							<i><%= link_to post.created_at, post.url, class: "text-muted" %></i><br>
+						</div>
 					</div>
 				</div>
-			</div>
 			<% end %>
 		<% end %>
 	</div>
+	<% if @all_posts.empty? %>
+		<div class="row">
+			<div class="col-12">
+				No tweets found for this day or search.
+			</div>
+		</div>
+	<% end %>
 </div>

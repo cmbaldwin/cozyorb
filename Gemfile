@@ -60,15 +60,17 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Authentication
+gem 'devise'
+
+# Flickr
 gem 'httparty'
 gem 'flickr.rb'
 
 # Twitter logging
 gem 'twitter'
 gem 'kaminari'
-
-# Authentication
-gem 'devise'
 
 # High Speed Background Modules
 gem 'render_async'
