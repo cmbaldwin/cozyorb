@@ -19,6 +19,9 @@ require("channels")
 require("@popperjs/core")
 import 'bootstrap'
 
+require("trix")
+require("@rails/actiontext")
+
 $(document).ready(function() {
 	setTimeout(function(){
 		$('.notice .alert').fadeOut();

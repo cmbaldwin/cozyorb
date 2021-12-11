@@ -6,7 +6,7 @@ ruby '2.6.6'
 gem 'dotenv-rails', groups: [:development, :test], :require => 'dotenv/rails-now'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3', '~> 1.4'
 gem 'pg'
@@ -75,3 +75,11 @@ gem 'kaminari'
 
 # High Speed Background Modules
 gem 'render_async'
+
+# Support for Rich Text image processing
+# # Auto-upload setup for Google
+# # See here for how to setup credentials: https://devdojo.com/bryanborge/adding-google-cloud-credentials-to-heroku
+# # See also: https://medium.com/@iachieve80/rails-6-0-upload-images-using-active-storage-and-google-cloud-services-tutorial-538f818a6f30
+gem "google-cloud-storage", "~> 1.11"
+gem 'file_validators'
+gem 'image_processing', '~> 1.2'
