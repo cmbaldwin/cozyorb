@@ -82,4 +82,4 @@ gem 'render_async'
 # # See also: https://medium.com/@iachieve80/rails-6-0-upload-images-using-active-storage-and-google-cloud-services-tutorial-538f818a6f30
 gem "google-cloud-storage", "~> 1.11"
 gem 'file_validators'
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12'
