@@ -1,100 +1,100 @@
 class LikesController < ApplicationController
-	before_action :set_like, only: [:show, :edit, :update, :destroy]
-	before_action :authenticate_user!
+  before_action :set_like, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
-	# GET /likes
-	# GET /likes.json
-	def index
-		@likes = Like.search(params[:term]).page params[:page]
-		
-	end
+  # GET /likes
+  # GET /likes.json
+  def index
+    @likes = Like.search(params[:term]).page params[:page]
 
-	def like_upload
-		require "json"
+  end
 
-		likes = JSON.parse((File.read(open(params[:js]))).gsub(/(window).(YTD).(like).(part)\d = /, ''))
-		puts 'Total likes ' + likes.count.to_s
-		if ProcessTwitterLikesJob.perform_later likes
-			redirect_to likes_path, notice: '「like.js」を処理中です。しばらくお待ちください。'
-		else
-			redirect_to likes_path, notice: '「like.js」のエラーがありました。ファイルを確認お願い致します。'
-		end
-	end
+  def like_upload
+    require "json"
 
-	def like_results
+    likes = JSON.parse((File.read(open(params[:js]))).gsub(/(window).(YTD).(like).(part)\d = /, ''))
+    puts 'Total likes ' + likes.count.to_s
+    if ProcessTwitterLikesJob.perform_later likes
+      redirect_to likes_path, notice: '「like.js」を処理中です。しばらくお待ちください。'
+    else
+      redirect_to likes_path, notice: '「like.js」のエラーがありました。ファイルを確認お願い致します。'
+    end
+  end
 
-	end
+  def like_results
 
-	def display_change
-		Like.where(id: like_params[:like_ids]).each do |like|
-			like.display = true
-			like.save
-		end
-		redirect_to likes_path, notice: '表示設定反映しました。'
-	end
+  end
 
-	# GET /likes/1
-	# GET /likes/1.json
-	def show
-	end
+  def display_change
+    Like.where(id: like_params[:like_ids]).each do |like|
+      like.display = true
+      like.save
+    end
+    redirect_to likes_path, notice: '表示設定反映しました。'
+  end
 
-	# GET /likes/new
-	def new
-		@like = Like.new
-	end
+  # GET /likes/1
+  # GET /likes/1.json
+  def show
+  end
 
-	# GET /likes/1/edit
-	def edit
-	end
+  # GET /likes/new
+  def new
+    @like = Like.new
+  end
 
-	# POST /likes
-	# POST /likes.json
-	def create
-		@like = Like.new(like_params)
+  # GET /likes/1/edit
+  def edit
+  end
 
-		respond_to do |format|
-			if @like.save
-				format.html { redirect_to @like, notice: 'Like was successfully created.' }
-				format.json { render :show, status: :created, location: @like }
-			else
-				format.html { render :new }
-				format.json { render json: @like.errors, status: :unprocessable_entity }
-			end
-		end
-	end
+  # POST /likes
+  # POST /likes.json
+  def create
+    @like = Like.new(like_params)
 
-	# PATCH/PUT /likes/1
-	# PATCH/PUT /likes/1.json
-	def update
-		respond_to do |format|
-			if @like.update(like_params)
-				format.html { redirect_to @like, notice: 'Like was successfully updated.' }
-				format.json { render :show, status: :ok, location: @like }
-			else
-				format.html { render :edit }
-				format.json { render json: @like.errors, status: :unprocessable_entity }
-			end
-		end
-	end
+    respond_to do |format|
+      if @like.save
+        format.html { redirect_to @like, notice: 'Like was successfully created.' }
+        format.json { render :show, status: :created, location: @like }
+      else
+        format.html { render :new }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
-	# DELETE /likes/1
-	# DELETE /likes/1.json
-	def destroy
-		@like.destroy
-		respond_to do |format|
-			format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
-			format.json { head :no_content }
-		end
-	end
+  # PATCH/PUT /likes/1
+  # PATCH/PUT /likes/1.json
+  def update
+    respond_to do |format|
+      if @like.update(like_params)
+        format.html { redirect_to @like, notice: 'Like was successfully updated.' }
+        format.json { render :show, status: :ok, location: @like }
+      else
+        format.html { render :edit }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
-	private
-		# Use callbacks to share common setup or constraints between actions.
-		def set_like
-			@like = Like.find(params[:id])
-		end
+  # DELETE /likes/1
+  # DELETE /likes/1.json
+  def destroy
+    @like.destroy
+    respond_to do |format|
+      format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
 
-		# Only allow a list of trusted parameters through.
-		def like_params
-			params.require(:like).permit(:tweetId, :fullText, :expandedUrl, like_ids: [])
-		end
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_like
+      @like = Like.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def like_params
+      params.require(:like).permit(:tweetId, :fullText, :expandedUrl, like_ids: [])
+    end
 end

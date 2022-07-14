@@ -14,7 +14,7 @@ development:
   # To pull database from Heroku, run:
   # rake db:drop
   # heroku pg:pull database yyyymmdd_backup
-  database: 20210805_backup
+  database: 20220414_backup
   username: root
   password: root
   host: localhost

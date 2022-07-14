@@ -1,40 +1,40 @@
 <%= javascript_pack_tag 'shuffle', 'data-turbolinks-track': 'reload' %>
 
-<div class="container">
-	<h1>Tweets</h1>
+<div class="container m-2 md:m-4 p-2 lg:p-4">
+  <h1>Tweets</h1>
 
-	<div class="row shuffle-sizer" id="grid">
-		<% @tweets.each do |tweet| %>
-			<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 shuffle-brick">
-				<div class="card mb-4">
-					<div class="card-body">
-						<b><%= ENV['TWITTER_USER'] %></b><br>
-						<%= (tweet.text_with_links).html_safe %><br>
-					</div>
-					<div class="card-footer">
-						<i><%= link_to tweet.created_at, tweet.url, class: 'small text-muted' %></i><br>
-					</div>
-				</div>
-			</div>
-		<% end %>
-	</div>
+  <div class="row shuffle-sizer" id="grid">
+    <% @tweets.each do |tweet| %>
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 shuffle-brick">
+        <div class="card mb-4">
+          <div class="card-body">
+            <b><%= ENV['TWITTER_USER'] %></b><br>
+            <%= (tweet.text_with_links).html_safe %><br>
+          </div>
+          <div class="card-footer">
+            <i><%= link_to tweet.created_at, tweet.url, class: 'small text-muted' %></i><br>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
-	<hr>
+  <hr>
 
-	<%= form_tag(tweets_path, method: :get) do %>
-		<%= text_field_tag :term, params[:term] %>
-		<%= submit_tag '検索', name: nil %>
-	<% end %>
-	<%= paginate @tweets %>
+  <%= form_tag(tweets_path, method: :get) do %>
+    <%= text_field_tag :term, params[:term] %>
+    <%= submit_tag '検索', name: nil %>
+  <% end %>
+  <%= paginate @tweets %>
 
-	<% if user_signed_in? && @tweets.nil? %>
+  <% if user_signed_in? && @tweets.nil? %>
 
-		<hr>
-		Upload a 「tweet.js」 file, process all tweets in background:
-		<%= form_tag tweet_upload_path, multipart: true do %>
-			<%= file_field_tag :js %>
-			<%= submit_tag "アップ" %>
-		<% end %>
+    <hr>
+    Upload a 「tweet.js」 file, process all tweets in background:
+    <%= form_tag tweet_upload_path, multipart: true do %>
+      <%= file_field_tag :js %>
+      <%= submit_tag "アップ" %>
+    <% end %>
 
-	<% end %>
+  <% end %>
 </div>

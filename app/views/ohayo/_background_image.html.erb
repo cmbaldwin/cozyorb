@@ -1,19 +1,17 @@
-<div class="toast-container position-absolute p-3 bottom-0 start-0">
-	<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-		<div class="toast-header">
-			<strong class="me-auto">
-				<%= link_to( @photo.url, :target => '_blank', class: 'link-info' ) do %>
-					<%= @photo.title.empty? ? 'Untitled' : @photo.title %>
-				<% end %>
-			</strong>
-			<small class="text-muted"><%= "(#{@exif_data['Date and Time (Original)'] || @exif_data['Metadata Date']})" if (@exif_data["Date and Time (Original)"] || @exif_data["Metadata Date"]) %></small>
-		</div>
-		<% unless @photo.description.empty? %>
-			<div class="toast-body">
-				<%= @photo.description %>
-			</div>
-		<% end %>
-	</div>
+<div class="absolute max-w-fit w-1/2 left-0 bottom-0 rounded bg-white m-2 p-2 md:p-4">
+  <div class="grid">
+    <strong>
+      <%= link_to( @photo.url, :target => '_blank', class: 'link-info' ) do %>
+        <%= @photo.title.empty? ? 'Untitled' : @photo.title %>
+      <% end %>
+    </strong>
+    <small><%= "(#{@exif_data['Date and Time (Original)'] || @exif_data['Metadata Date']})" if (@exif_data["Date and Time (Original)"] || @exif_data["Metadata Date"]) %></small>
+    <% unless @photo.description.empty? %>
+      <div>
+        <%= @photo.description.html_safe %>
+      </div>
+    <% end %>
+  </div>               
 </div>
 
 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(<%= @photo_url %>) no-repeat center center fixed; -webkit-background-size: contain; -moz-background-size: contain; -o-background-size: contain; background-size: contain; z-index: -1;">

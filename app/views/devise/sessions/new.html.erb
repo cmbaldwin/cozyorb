@@ -1,17 +1,17 @@
-<div class="container">
+<div class="container text-center p-2 md:p-4 m-2 md:m-4">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'rounded-lg p-1 m-2' %>
     </div>
 
     <div class="field">
       <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
+      <%= f.password_field :password, autocomplete: "current-password", class: 'rounded-lg p-1 m-2' %>
     </div>
 
     <div class="actions">
-      <%= f.submit "入る" %>
+      <%= f.submit "入る", class: 'rounded-lg p-1 m-2' %>
     </div>
   <% end %>
 

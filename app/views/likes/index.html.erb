@@ -1,28 +1,28 @@
 <%= javascript_pack_tag 'shuffle', 'data-turbolinks-track': 'reload' %>
 
-<div class="container">
-	<h1>Likes</h1>
+<div class="container m-2 md:m-4 p-2 lg:p-4">
+  <h1>Likes</h1>
 
-	<div class="row shuffle-sizer" id="grid">
-		<% @likes.each do |like| %>
-			<div class="col-sm-12 col-md-6 col-lg-3 shuffle-brick">
-				<div class="card mb-4">
-					<div class="card-body">
-						<b><%= like.screen_name %></b><br>
-						<%= (like.text_with_links).html_safe  %>
-					</div>
-					<div class="card-footer">
-						<i><%= link_to like.created_at, like.url, class: 'text-muted small' %></i><br>
-					</div>
-				</div>
-			</div>
-		<% end %>
-	</div>
+  <div class="row shuffle-sizer" id="grid">
+    <% @likes.each do |like| %>
+      <div class="col-sm-12 col-md-6 col-lg-3 shuffle-brick">
+        <div class="card mb-4">
+          <div class="card-body">
+            <b><%= like.screen_name %></b><br>
+            <%= (like.text_with_links).html_safe  %>
+          </div>
+          <div class="card-footer">
+            <i><%= link_to like.created_at, like.url, class: 'text-muted small' %></i><br>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
-	<hr>
+  <hr>
 
-	<%= form_tag(likes_path, method: :get) do %>
-		<%= text_field_tag :term, params[:term] %>
-		<%= submit_tag '検索', name: nil %>
-	<% end %>
-	<%= paginate @likes %>
+  <%= form_tag(likes_path, method: :get) do %>
+    <%= text_field_tag :term, params[:term] %>
+    <%= submit_tag '検索', name: nil %>
+  <% end %>
+  <%= paginate @likes %>

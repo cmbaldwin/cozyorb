@@ -7,7 +7,6 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-//require("jquery") << No longer required in Bootstrap 5
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -17,13 +16,17 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 require("@popperjs/core")
-import 'bootstrap'
 
 require("trix")
 require("@rails/actiontext")
+import * as Nav from './nav'
 
-$(document).ready(function() {
-	setTimeout(function(){
-		$('.notice .alert').fadeOut();
-	}, 2000);
+document.addEventListener('turbolinks:load', () => {
+  Nav.mobileNav()
+  setTimeout(function(){
+    document.querySelectorAll('.notice_alert').forEach(
+      element => {
+        element.style.display = 'none'
+      });
+  }, 2000);
 })

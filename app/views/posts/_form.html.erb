@@ -1,0 +1,27 @@
+<%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.text_field :title, label: false, placeholder: 'Title', class: 'rounded-lg p-1 mb-2 lg:p-2' %>
+  </div>
+
+  <div class="field relative">
+    <%= form.rich_text_area :content, label: false, placeholder: 'Content', class: 'rounded-lg p-1 mb-2 lg:p-2 text-sm md:text-base' %>
+  </div>
+
+  <div class="actions relative">
+    <%= form.label :published, 'Publish' %>
+    <%= form.check_box :published %>
+    <%= form.submit class: 'btn rounded bg-sky-300 p-2 m-2 right-0 absolute' %>
+  </div>
+<% end %>

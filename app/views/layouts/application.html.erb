@@ -1,38 +1,88 @@
 <!DOCTYPE html>
 <html lang="ja">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>ohayo</title>
-		<%= csrf_meta_tags %>
-		<%= csp_meta_tag %>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>maido</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-		<%= stylesheet_pack_tag "application", media: 'all', 'data-turbolinks-track': 'reload' %>
-		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-		<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-	</head>
+    <%= stylesheet_pack_tag "application", media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
 
-	<body>
-		<div class="container-flex pt-4">
-			<div class="navi">
-					<%= link_to "🔝", root_path, 'data-turbolinks': 'false' %> |
-					<%= link_to "📓", scrapbook_path, 'data-turbolinks': 'false' %> |
-				<% if user_signed_in? %>
-					<%= link_to "🐦", tweets_path, 'data-turbolinks': 'false' %> |
-					<%= link_to "👍", likes_path, 'data-turbolinks': 'false' %> |
-					<%= link_to "🔐", destroy_user_session_path, :method => :delete, class: 'exit' %>
-				<% else %>
-					<%= link_to "🔓", new_user_session_path, :method => :post  %>
-				<% end %>
-			</div>
-			<%= yield %>
-			<% if notice %>
-				<p class="notice"><%= notice %></p>
-			<% end %>
-			<% if alert %>
-				<p class="alert"><%= alert %></p>
-			<% end %>
-		</div>
-		<%= content_for :render_async %>
-	</body>
+  <body>
+
+    <!-- navigation -->
+    <nav class="bg-neutral-100">
+      <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="relative flex items-center justify-between h-16">
+          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <!-- Mobile menu button-->
+            <button id="navBtn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:text-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <!-- desktop view -->
+          <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="flex-shrink-0 flex items-center justify-center">
+              <%= link_to root_path, 'data-turbolinks': 'false' do %>
+                <%= image_tag "cozyorb.svg", class: 'block h-12 w-auto decoration-0', alt: 'Cozy Orb Logo' %>
+              <% end %>
+            </div>
+            <div class="hidden sm:block sm:ml-6 mt-2">
+              <div class="flex space-x-4">
+                <%= link_to "🤔", about_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to about page'},'data-turbolinks': 'false' %>
+                <%= link_to "📓", scrapbook_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to scrapbook page'},'data-turbolinks': 'false' %>
+                <%= link_to "📋", posts_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to posts page'},'data-turbolinks': 'false' %>
+                <% if user_signed_in? %>
+                  <%= link_to "🐦", tweets_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to tweets page'},'data-turbolinks': 'false' %>
+                  <%= link_to "👍", likes_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to likes page'},'data-turbolinks': 'false' %>
+                  <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <% if user_signed_in? %>
+              <%= link_to "🔐", destroy_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Logout link'}, :method => :delete, class: 'exit' %>
+            <% else %>
+              <%= link_to "🔓", new_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Login link'}, :method => :post  %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div class="sm:hidden hidden flex items-center justify-center" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <%= link_to "🤔", about_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to about page'}, 'data-turbolinks': 'false' %>
+          <%= link_to "📓", scrapbook_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to scrapbook page'}, 'data-turbolinks': 'false' %>
+          <%= link_to "📋", posts_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to posts page'}, 'data-turbolinks': 'false' %>
+          <% if user_signed_in? %>
+            <%= link_to "🐦", tweets_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to tweets page'}, 'data-turbolinks': 'false' %>
+            <%= link_to "👍", likes_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to likes page'}, 'data-turbolinks': 'false' %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    <div class="container mx-auto">
+      <%= yield %>
+      <% if notice || alert %>
+        <p class="notice_alert opacity-80 absolute sm:max-w-fit w-1/2 right-0 bottom-0 rounded bg-white m-2 p-2 md:p-4">
+          <%= notice || alert %>
+        </p> 
+    <% end %>
+    </div>
+    <%= content_for :render_async %>
+    <div class="bg-gradient-to-r blur-3xl rotate-45 from-blue-300 via-green-200 to-yellow-300 opacity-30 fixed left-0 top-0 w-full h-full -z-20"></div>
+    <div class="bg-gradient-to-r blur-3xl from-blue-300 via-green-200 to-yellow-300 opacity-20 fixed left-0 top-0 w-full h-full -z-20"></div>
+  </body>
 </html>

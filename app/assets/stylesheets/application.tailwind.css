@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  h1 {
+    @apply text-xl md:text-3xl;
+  }
+  h2 {
+    @apply text-lg md:text-2xl;
+  }
+  h3 {
+    @apply md:text-xl;
+  }
+  h4 {
+    @apply md:text-lg;
+  }
+  a {
+    @apply text-blue-700;
+    @apply decoration-wavy;
+    @apply decoration-sky-500;
+    @apply decoration-1;
+  }
+  a:hover {
+    @apply text-sky-400;
+    @apply decoration-0;
+  }
+}
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  }
+}
+
+@layer utilities {
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-3000 {
+    animation-delay: 3s;
+  }
+}

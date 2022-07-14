@@ -28,9 +28,11 @@ preload_app!
 
 rackup      DefaultRackup
 port        ENV.fetch("PORT") { 3000 }
-environment ENV.fetch("RAILS_ENV") { "development" }
+environment ENV.fetch("RACK_ENV") { "development" }
+# quick find local ip address on mac
+# ifconfig | grep inet
 if ENV['RACK_ENV'] == 'development'
-	bind        'tcp://192.168.1.18:3000'
+	bind      "tcp://#{ENV.fetch("LOCAL_IP") { "localhost" }}:3000"
 end
 
 on_worker_boot do
