@@ -1,4 +1,4 @@
-# mudl.us
+# cozyorb
 
 * Purpose:
 Liberate and give a user control over their personal data from data sharing model SNS (just Twitter for now) and double as a personal landing page.
