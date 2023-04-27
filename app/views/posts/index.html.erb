@@ -1,16 +1,21 @@
-<div class="container prose max-w-xl m-2 lg:m-4">
+<div class="container prose max-w-xl m-3 lg:m-4">
   <h1>Posts</h1>
+  <%= link_to "New Post", new_post_path, class: 'text-gray-600 hover:text-white rounded-md text-xl py-4 font-medium' if user_signed_in? %>
 
-  <div class="grid grid-cols-1">
+  <div class="grid grid-cols-1 pt-4">
     <div class="container">
       <% @posts.each do |post| %>
         <div class="rounded p-2 m-2 lg:p-4 lg:m-4">
           <div class="">
-            <h2 class="card-title"><%= post.title %></h2>
-            <p class="card-text"><%= post.content %></p>
+            <%= link_to post.title, post_path(post), class: 'h2 py-3 no-underline text-3xl' %>
+            <p class="card-text"><%= post.content.to_plain_text.truncate(240) %></p>
           </div>
           <div class="text-sm text-slate-300">
-            <i><%= link_to post.created_at, posts_path(post), class: 'small text-muted' %></i><br>
+            <i><%= link_to post.created_at, post_path(post), class: 'small text-muted' %></i><br>
+            <% if user_signed_in? %>
+              <td><%= link_to 'Edit', edit_post_path(post) %></td>
+              <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
           </div>
         </div>
       <% end %>

@@ -5,6 +5,7 @@ import {roundArrow} from 'tippy.js';
 
 // Tippy.js intialization
 $(document).on('turbolinks:load', function () {
+
   // Tippys
   tippy('.help_tip', {
     allowHTML: true,

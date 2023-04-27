@@ -8,6 +8,25 @@
 }
 
 trix-editor {
-    height: 60vh;
-    overflow-y: scroll;
+  height: 60vh;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+action-text-attachment hr, trix-editor hr {
+  display: block;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  margin: 2rem 0 2rem 0 !important;
+}
+
+.prose pre {
+  color: darkblue;
+  margin: 0.5em 0;
+  font-family: monospace !important;
+}
+
+.prose pre em {
+  font-style: normal;
 }

@@ -1,13 +1,19 @@
-<div class="container prose p-2 lg:p-4 pt-2 md:pt-4 md:m-4 w-full min-w-full">
+<div class="container prose p-4 md:my-4 mx-auto">
 
-  <h3><%= @post.title %></h3>
+  <h2><%= @post.title %></h2>
 
-  <p>
-    <strong>Content:</strong>
+  <p class="text-xs text-gray-500">
+    <span class="font-bold">Created at:</span> <%= @post.created_at.strftime("%d %b %Y") %>
+    <span class="font-bold">Last updated:</span> <%= @post.updated_at.strftime("%d %b %Y") %>
+  </p>
+
+  <p class="prose">
     <%= @post.content %>
   </p>
 
-  <%= link_to 'Edit', edit_post_path(@post), class: '' %> |
+  <% if user_signed_in? %>
+    <%= link_to 'Edit', edit_post_path(@post), class: '' %> |
+  <% end %>
   <%= link_to 'Back', posts_path, class: '' %>
 
 </div>

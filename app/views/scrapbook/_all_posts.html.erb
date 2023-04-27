@@ -1,0 +1,38 @@
+<div class="shuffle scrapbook m-2 md:m-4 p-2 lg:p-4">
+  <% @all_posts.sort{|p| p.created_at }.reverse.each do |post| %>
+    <% unless post.nil? %>
+      <% tweet = post.class.name == 'Tweet' %>
+      <div class="container scrap sizer w-full sm:w-1/2 md:w-1/3 lg:w-1/4" id="p_<%= post.id %>" data-tweet-url="<%= post.url %>">
+        <div class="m-2 md:m-4 p-2 lg:p-4 rounded-lg shadow-xl ring-1 ring-gray-900/5 <%= owned_tweet(post, tweet) %>">
+          <div class="top-0 right-1 absolute p-4 opacity-50">
+            <%= post_type_icon(post) %>
+          </div>
+          <div class="divide-y divide-gray-300/50">
+            <div class="prose p-2">
+              <% if tweet %>
+                <% if post.retweeted %>
+                  ♻️ <%= post.retweeted_text[:text].html_safe %>
+                <% else %>
+                  <%= (post.text_with_links).html_safe  %>
+                <% end %>
+              <% else %>
+                <b><%= link_to(post.screen_name, post.user_url) %></b><br>
+                <%= (post.text_with_links).html_safe  %>
+              <% end %>
+            </div>
+            <div class="text-sm p-2">
+              <i><%= link_to post.created_at, post.url, class: "text-gray-400 post_url", data: { target: "#p_#{post.id}", tweetId: post.id } %></i><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<% if @all_posts.empty? %>
+  <div class="grid justify-center justify-items-center content-center p-4">
+    <div class="prose text-center">
+      No tweets found for this day or search term.
+    </div>
+  </div>
+<% end %>

@@ -10,18 +10,21 @@
       </ul>
     </div>
   <% end %>
+  <div class="prose">
+    <div class="field">
+      <%= form.text_field :title, label: false, placeholder: 'Title', class: 'rounded-lg p-1 mb-2 lg:p-2 w-full' %>
+    </div>
 
-  <div class="field">
-    <%= form.text_field :title, label: false, placeholder: 'Title', class: 'rounded-lg p-1 mb-2 lg:p-2' %>
+    <div class="field relative">
+      <%= form.rich_text_area :content, label: false, placeholder: 'Content', class: 'rounded-lg p-1 mb-2 lg:p-2 text-sm md:text-base' %>
+    </div>
   </div>
 
-  <div class="field relative">
-    <%= form.rich_text_area :content, label: false, placeholder: 'Content', class: 'rounded-lg p-1 mb-2 lg:p-2 text-sm md:text-base' %>
-  </div>
-
-  <div class="actions relative">
-    <%= form.label :published, 'Publish' %>
-    <%= form.check_box :published %>
-    <%= form.submit class: 'btn rounded bg-sky-300 p-2 m-2 right-0 absolute' %>
+  <div class="actions relative flex place-content-between justify-items-center items-center max-w-prose">
+    <div class="flex place-content-between justify-items-center items-center gap-2">
+      <%= form.label :published, 'Publish' %>
+      <%= form.check_box :published %>
+    </div>
+    <%= form.submit class: 'btn rounded hover:cursor-pointer bg-sky-300 p-2 m-2 hover:bg-sky-200 active:bg-sky-400' %>
   </div>
 <% end %>

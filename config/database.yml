@@ -3,6 +3,7 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
+# heroku pg:pull postgresql-asymmetrical-05410 cozy_orb_dev_20220801
 #
 default: &default
   adapter: postgresql
@@ -13,8 +14,8 @@ development:
   <<: *default
   # To pull database from Heroku, run:
   # rake db:drop
-  # heroku pg:pull database yyyymmdd_backup
-  database: 20220414_backup
+  # heroku pg:pull database cozy_orb_dev_20220801
+  database: cozy_orb_dev_20230424
   username: root
   password: root
   host: localhost

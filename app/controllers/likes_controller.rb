@@ -1,19 +1,20 @@
+# frozen_string_literal: true
+
+# LikesController
 class LikesController < ApplicationController
-  before_action :set_like, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :set_like, only: %i[show edit update destroy]
 
   # GET /likes
   # GET /likes.json
   def index
     @likes = Like.search(params[:term]).page params[:page]
-
   end
 
   def like_upload
-    require "json"
+    require 'json'
 
-    likes = JSON.parse((File.read(open(params[:js]))).gsub(/(window).(YTD).(like).(part)\d = /, ''))
-    puts 'Total likes ' + likes.count.to_s
+    likes = JSON.parse(File.read(open(params[:js])).gsub(/(window).(YTD).(like).(part)\d = /, ''))
+    puts "Total likes #{likes.count}"
     if ProcessTwitterLikesJob.perform_later likes
       redirect_to likes_path, notice: '「like.js」を処理中です。しばらくお待ちください。'
     else
@@ -21,9 +22,7 @@ class LikesController < ApplicationController
     end
   end
 
-  def like_results
-
-  end
+  def like_results; end
 
   def display_change
     Like.where(id: like_params[:like_ids]).each do |like|
@@ -35,8 +34,7 @@ class LikesController < ApplicationController
 
   # GET /likes/1
   # GET /likes/1.json
-  def show
-  end
+  def show; end
 
   # GET /likes/new
   def new
@@ -44,8 +42,7 @@ class LikesController < ApplicationController
   end
 
   # GET /likes/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /likes
   # POST /likes.json
@@ -88,13 +85,14 @@ class LikesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_like
-      @like = Like.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def like_params
-      params.require(:like).permit(:tweetId, :fullText, :expandedUrl, like_ids: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_like
+    @like = Like.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def like_params
+    params.require(:like).permit(:tweetId, :fullText, :expandedUrl, like_ids: [])
+  end
 end

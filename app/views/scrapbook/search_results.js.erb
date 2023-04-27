@@ -1,0 +1,11 @@
+document.querySelector('#posts_partial').innerHTML = '<%= escape_javascript(render partial: "all_posts", locals: { all_posts: @all_posts }, remote: true) %>';
+// If shuffleInstance has been declared, updated it, otherwise create a new instance
+if (typeof shuffleInstance !== 'undefined') {
+  shuffleInstance.update();
+} else {
+  const shuffleInstance = new window.Shuffle(document.querySelector('.shuffle'), {
+    itemSelector: '.scrap',
+    sizer: '.sizer'
+  });
+  shuffleInstance.update();
+}

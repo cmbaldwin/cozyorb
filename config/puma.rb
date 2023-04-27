@@ -9,7 +9,7 @@ threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
 threads threads_count, threads_count
 
 # Specifies the `pidfile` that Puma will use.
-pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
+pidfile ENV.fetch('PIDFILE') { 'tmp/pids/server.pid' }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together
@@ -26,14 +26,11 @@ workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 #
 preload_app!
 
-rackup      DefaultRackup
-port        ENV.fetch("PORT") { 3000 }
-environment ENV.fetch("RACK_ENV") { "development" }
+port        ENV.fetch('PORT') { 3000 }
+environment ENV.fetch('RACK_ENV') { 'development' }
 # quick find local ip address on mac
 # ifconfig | grep inet
-if ENV['RACK_ENV'] == 'development'
-	bind      "tcp://#{ENV.fetch("LOCAL_IP") { "localhost" }}:3000"
-end
+bind "tcp://#{ENV.fetch('LOCAL_IP') { 'localhost' }}:3000" if ENV['RACK_ENV'] == 'development'
 
 on_worker_boot do
   # Worker specific setup for Rails 4.1+

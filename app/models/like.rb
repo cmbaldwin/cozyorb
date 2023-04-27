@@ -1,13 +1,17 @@
 class Like < ApplicationRecord
-
   scope :by_date, ->(date) { where(created_at: date.to_time.beginning_of_day..date.to_time.end_of_day) }
-  
+
   def self.search(term)
-    if term
-      where('full_text LIKE :search OR screen_name LIKE :search', search: "%#{term}%").order(created_at: :desc)
+    if term.present?
+      search_terms = term.downcase.split(' ').map { |t| "%#{t}%" }
+      where(search_query, *search_terms * 2).order(created_at: :desc)
     else
       order(created_at: :desc)
     end
+  end
+
+  def self.search_query
+    '(lower(full_text) LIKE ? OR lower(screen_name) LIKE ?)'
   end
 
   def url
@@ -19,7 +23,7 @@ class Like < ApplicationRecord
   end
 
   def no_url_text
-    full_text.gsub(/https?:\/\/[\S]+/, '')
+    full_text.gsub(%r{https?://\S+}, '')
   end
 
   def link_constructor(link)
@@ -27,12 +31,11 @@ class Like < ApplicationRecord
   end
 
   def text_with_links
-    full_text.nil? ? full_text.gsub(/https?:\/\/[\S]+/) { |l| link_constructor(l) } : full_text
+    full_text&.gsub(%r{https?://\S+}) { |l| link_constructor(l) }
   end
 
   def links
-    regex = full_text[/https?:\/\/[\S]+/]
-    regex ? [{url: regex}] : []
+    regex = full_text[%r{https?://\S+}]
+    regex ? [{ url: regex }] : []
   end
-
 end

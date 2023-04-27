@@ -1,24 +1,32 @@
-class ScrapbookController < ApplicationController
+# frozen_string_literal: true
 
-  def index
-    @term = search_params[:term] if search_params[:term]
-    unless @term
-      search_params[:date] ? @search_date = Date.parse(params[:date]) : @search_date = Date.today
-      @tweets = Tweet.by_date(@search_date)
-      @likes = Like.by_date(@search_date)
-      @all_posts = @tweets + @likes
-    else
-      @search_date = Date.today
-      @tweets = Tweet.search(@term)
-      @likes = Like.search(@term)
-      @all_posts = @tweets + @likes
-    end
-  end
+# ScrapbookController
+class ScrapbookController < ApplicationController
+  before_action :set_vars, only: %i[index search_results]
+
+  def index; end
+
+  def search_results; end
 
   private
 
-    def search_params
-      params.permit(:date, :term)
-    end
+  def set_vars
+    @term = term
+    @search_date = search_params[:date] ? Date.parse(search_params[:date]) : Time.zone.today
+    @tweets = @term ? Tweet.search(@term) : Tweet.by_date(@search_date)
+    @likes = @term ? Like.search(@term) : Like.by_date(@search_date)
+    @all_posts = @tweets + @likes
+  end
 
+  def term
+    search_params[:term].present? ? search_params[:term] : nil
+  end
+
+  def search_date
+    search_params[:date].present? ? Date.parse(search_params[:date]) : Time.zone.today
+  end
+
+  def search_params
+    params.permit(:date, :term, :commit, :format, :authenticity_token)
+  end
 end

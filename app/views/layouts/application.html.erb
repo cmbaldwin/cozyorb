@@ -39,22 +39,22 @@
               <% end %>
             </div>
             <div class="hidden sm:block sm:ml-6 mt-2">
+              <% links = [
+                { label: 'about page', path: about_path, icon: '🤔' },
+                { label: 'scrapbook page', path: scrapbook_path, icon: '📓' },
+                { label: 'posts page', path: posts_path, icon: '📋' }
+              ] %>
               <div class="flex space-x-4">
-                <%= link_to "🤔", about_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to about page'},'data-turbolinks': 'false' %>
-                <%= link_to "📓", scrapbook_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to scrapbook page'},'data-turbolinks': 'false' %>
-                <%= link_to "📋", posts_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to posts page'},'data-turbolinks': 'false' %>
-                <% if user_signed_in? %>
-                  <%= link_to "🐦", tweets_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to tweets page'},'data-turbolinks': 'false' %>
-                  <%= link_to "👍", likes_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to likes page'},'data-turbolinks': 'false' %>
-                  <% end %>
+                <% links.each do |link| %>
+                  <%= link_to link[:icon].html_safe, link[:path], class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm md:text-md lg:text-lg xl:text-xl font-medium decoration-0', aria: { label: "Link to #{link[:label]} page" }, 'data-turbolinks': 'false' %>
+                <% end %>
               </div>
-            </div>
           </div>
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="absolute inset-y-0 right-0 flex items-center mt-2 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <% if user_signed_in? %>
-              <%= link_to "🔐", destroy_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Logout link'}, :method => :delete, class: 'exit' %>
+              <%= link_to "🔐", destroy_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm md:text-md lg:text-lg xl:text-xl font-medium decoration-0 exit', aria: { label: 'Logout link'}, :method => :delete%>
             <% else %>
-              <%= link_to "🔓", new_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Login link'}, :method => :post  %>
+              <%= link_to "🔓", new_user_session_path, class: 'text-gray-700 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm md:text-md lg:text-lg xl:text-xl font-medium decoration-0', aria: { label: 'Login link'}, :method => :post  %>
             <% end %>
           </div>
         </div>
@@ -63,12 +63,8 @@
       <!-- Mobile menu, show/hide based on menu state. -->
       <div class="sm:hidden hidden flex items-center justify-center" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1">
-          <%= link_to "🤔", about_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to about page'}, 'data-turbolinks': 'false' %>
-          <%= link_to "📓", scrapbook_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to scrapbook page'}, 'data-turbolinks': 'false' %>
-          <%= link_to "📋", posts_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to posts page'}, 'data-turbolinks': 'false' %>
-          <% if user_signed_in? %>
-            <%= link_to "🐦", tweets_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to tweets page'}, 'data-turbolinks': 'false' %>
-            <%= link_to "👍", likes_path, class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm font-medium decoration-0', aria: { label: 'Link to likes page'}, 'data-turbolinks': 'false' %>
+          <% links.each do |link| %>
+            <%= link_to link[:icon].html_safe, link[:path], class: 'text-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md text-sm md:text-md lg:text-lg xl:text-xl font-medium decoration-0', aria: { label: "Link to #{link[:label]} page" }, 'data-turbolinks': 'false' %>
           <% end %>
         </div>
       </div>

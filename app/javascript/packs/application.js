@@ -17,13 +17,31 @@ require("channels")
 
 require("@popperjs/core")
 
-require("trix")
+//var Trix = require("trix")
+import * as Trix from "trix"
 require("@rails/actiontext")
 import * as Nav from './nav'
 
+document.addEventListener("trix-initialize", event => {
+  const { toolbarElement } = event.target
+  const blockTools = toolbarElement.querySelector("[data-trix-button-group=block-tools]")
+  blockTools.insertAdjacentHTML("afterbegin", `
+    <button type="button" class="trix-button" data-trix-action="x-horizontal-rule" title="Horizontal Rule" tabindex="-1">━</button>
+  `)
+})
+
+document.addEventListener("trix-action-invoke", event => {
+  if (event.actionName == "x-horizontal-rule") {
+    const { editor } = event.target
+    const attachment = new Trix.Attachment({ content: "<hr>", contentType: "vnd.rubyonrails.horizontal-rule.html" })
+    editor.insertAttachment(attachment)
+  }
+})
+
 document.addEventListener('turbolinks:load', () => {
+  // Navigation
   Nav.mobileNav()
-  setTimeout(function(){
+  setTimeout(function () {
     document.querySelectorAll('.notice_alert').forEach(
       element => {
         element.style.display = 'none'

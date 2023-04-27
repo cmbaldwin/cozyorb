@@ -1,18 +1,22 @@
 <%= javascript_pack_tag 'shuffle', 'data-turbolinks-track': 'reload' %>
 
-<div class="container m-2 md:m-4 p-2 lg:p-4">
+<div class="container m-2 md:m-4 p-2 lg:p-4 divide-y divide-gray-300/50">
   <h1>Tweets</h1>
 
-  <div class="row shuffle-sizer" id="grid">
+  <div class="shuffle tweets m-2 md:m-4 p-2 lg:p-4" id="grid">
     <% @tweets.each do |tweet| %>
-      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 shuffle-brick">
-        <div class="card mb-4">
-          <div class="card-body">
-            <b><%= ENV['TWITTER_USER'] %></b><br>
-            <%= (tweet.text_with_links).html_safe %><br>
-          </div>
-          <div class="card-footer">
-            <i><%= link_to tweet.created_at, tweet.url, class: 'small text-muted' %></i><br>
+      <div class="container scrap sizer w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+        <div class="p-4">
+          <div class="relative bg-white px-6 pt-6 pb-4 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-6">
+            <div class="divide-y divide-gray-300/50">
+              <div class="p-2">
+                <b><%= ENV['TWITTER_USER'] %></b><br>
+                <%= (tweet.text_with_links).html_safe %><br>
+              </div>
+              <div class="p-2">
+                <i><%= link_to tweet.created_at, tweet.url, class: 'text-gray-400 text-sm' %></i><br>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -21,20 +25,22 @@
 
   <hr>
 
-  <%= form_tag(tweets_path, method: :get) do %>
-    <%= text_field_tag :term, params[:term] %>
-    <%= submit_tag '検索', name: nil %>
-  <% end %>
-  <%= paginate @tweets %>
-
-  <% if user_signed_in? && @tweets.nil? %>
-
-    <hr>
-    Upload a 「tweet.js」 file, process all tweets in background:
-    <%= form_tag tweet_upload_path, multipart: true do %>
-      <%= file_field_tag :js %>
-      <%= submit_tag "アップ" %>
+  <div>
+    <%= form_tag(tweets_path, method: :get) do %>
+      <%= text_field_tag :term, params[:term], class: 'rounded-lg my-4' %>
+      <%= submit_tag '検索', name: nil %>
     <% end %>
+    <%= paginate @tweets %>
 
-  <% end %>
+    <% if user_signed_in? && @tweets.nil? %>
+
+      <hr>
+      Upload a 「tweet.js」 file, process all tweets in background:
+      <%= form_tag tweet_upload_path, multipart: true do %>
+        <%= file_field_tag :js %>
+        <%= submit_tag "アップ" %>
+      <% end %>
+
+    <% end %>
+  </div>
 </div>
